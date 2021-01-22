@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
@@ -11,20 +12,29 @@ namespace TEDinc.PhotosNetwork
         [SerializeField]
         private TMP_Text label;
 
+        public SQLiteConnection connection
+        {
+            get
+            {
+                if (_connection == null)
+                    _connection = LoadDB();
+                return _connection;
+            }
+        }
+
+        private SQLiteConnection _connection;
+
         private const string DatabaseName = "local.db";
 
-        public void TestDB()
+        private SQLiteConnection LoadDB()
         {
-            label.text = "\n::0::\n";
-            try
-            {
 #if UNITY_EDITOR
-                string dbPath = Application.streamingAssetsPath + "/" + DatabaseName; 
+            string dbPath = Application.streamingAssetsPath + "/" + DatabaseName; 
 #else
-                string persistantDBPath = Application.persistentDataPath + "/" + DatabaseName;
+            string persistantDBPath = Application.persistentDataPath + "/" + DatabaseName;
 
-                if (!File.Exists(persistantDBPath))
-                {
+            if (!File.Exists(persistantDBPath))
+            {
 #if UNITY_ANDROID
                 UnityWebRequest loadDb = UnityWebRequest.Get(Application.streamingAssetsPath + "/" + DatabaseName);
                     loadDb.SendWebRequest();
@@ -33,30 +43,43 @@ namespace TEDinc.PhotosNetwork
 #else
                 File.Copy(Application.streamingAssetsPath + "/" + DatabaseName, persistantDBPath);
 #endif
-                }
+            }
 
-                string dbPath = persistantDBPath;
+            string dbPath = persistantDBPath;
 #endif
-                SQLiteConnection connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                label.text += "\n::1::\n";
-                foreach (var item in connection.Table<User>())
-                    label.text += $"{item}\n";
-            }
-            catch (System.Exception e)
-            {
-                label.text += e;
-            }
-            label.text += "\n::2::\n";
+            return new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
         }
 
         public class User
         {
-            public long Id { get; private set; }
+            [PrimaryKey, Unique, AutoIncrement]
+            public int Id { get; private set; }
+            [Unique]
             public string Username { get; private set; }
 
             public override string ToString()
             {
                 return $"{Id} : {Username}";
+            }
+        }
+
+        public class Publication
+        {
+            [PrimaryKey, Unique, AutoIncrement]
+            public int Id { get; private set; }
+            public int UserId { get; private set; }
+            public long DataTimeUTC { get; private set; }
+            public string Message { get; private set; }
+            public byte[] PhotoData { get; private set; }
+
+            public Publication() { }
+
+            public Publication(int userId, string message, byte[] photoData)
+            {
+                UserId = userId;
+                Message = message;
+                PhotoData = photoData;
+                DataTimeUTC = DateTime.UtcNow.Ticks;
             }
         }
     }
