@@ -4,6 +4,7 @@ using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
+    public delegate void OnComment(int commentId);
     public sealed class PublicationInstance : MonoBehaviour
     {
         [SerializeField]
@@ -12,16 +13,16 @@ namespace TEDinc.PhotosNetwork
         private TMP_Text usernameLabel;
 
         private int publicationId;
+        private OnComment onComment;
 
-        public void OpenComments()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OpenComments() =>
+            onComment.Invoke(publicationId);
 
-        public void Setup(string username, int publicationId)
+        public void Setup(string username, int publicationId, OnComment onComment)
         {
             usernameLabel.text = username;
             this.publicationId = publicationId;
+            this.onComment = onComment;
             name = $"Publication[{username},{publicationId}]";
         }
 

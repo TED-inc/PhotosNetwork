@@ -10,6 +10,7 @@ namespace TEDinc.PhotosNetwork
 
     public sealed class ClientUserService : ClientServiceBase
     {
+        [Header("Login and Register")]
         [SerializeField]
         private GameObject connectionOverlay;
         [SerializeField]

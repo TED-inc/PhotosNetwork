@@ -5,8 +5,12 @@ namespace TEDinc.PhotosNetwork
 {
     public sealed class ClientPublicationService : ClientServiceBase
     {
+        [Header("Services")]
         [SerializeField]
         private ClientUserService userService;
+        [SerializeField]
+        private ClientCommentService commentService;
+        [Header("Publications Settings")]
         [SerializeField]
         private new Camera camera;
         [SerializeField]
@@ -26,7 +30,7 @@ namespace TEDinc.PhotosNetwork
             while(client.serverConnection == null)
                 yield return new WaitForSecondsRealtime(0.1f);
 
-            publicationFactory = new PublicationInstanceFactory(client.serverConnection, publicationsParent, publicationPrefab);
+            publicationFactory = new PublicationInstanceFactory(client.serverConnection, publicationsParent, commentService, publicationPrefab);
             publicationFactory.Load();
             initilized = true;
         }
