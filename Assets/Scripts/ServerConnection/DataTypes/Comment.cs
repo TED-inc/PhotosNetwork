@@ -12,6 +12,8 @@ namespace TEDinc.PhotosNetwork
         public long DataTimeUTC { get; private set; }
         public string Message { get; private set; }
 
+        public Comment() { } // required for loading from SQL
+
         public Comment(int userId, int publicationId, long dataTimeUTC, string message)
         {
             UserId = userId;

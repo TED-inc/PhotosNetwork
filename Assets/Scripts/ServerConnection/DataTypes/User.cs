@@ -9,7 +9,7 @@ namespace TEDinc.PhotosNetwork
         [Unique]
         public string Username { get; private set; }
 
-        public User() { }
+        public User() { } // required for loading from SQL
 
         public User(string username)
         {

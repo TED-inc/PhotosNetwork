@@ -11,7 +11,7 @@ namespace TEDinc.PhotosNetwork
         public long DataTimeUTC { get; private set; }
         public byte[] PhotoData { get; private set; }
 
-        public Publication() { }
+        public Publication() { } // required for loading from SQL
 
         public Publication(int userId, byte[] photoData)
         {

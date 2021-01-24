@@ -1,10 +1,9 @@
 ﻿namespace TEDinc.PhotosNetwork
 {
-    public delegate (Publication[] user, Result result) GetPublicationsCallback();
     public interface IPublicationService
     {
-        void Setup(IUserService userService);
-
+        void GetPublications(int count, GetPublicationsCallback callback);
         void GetPublications(int fromPublicationId, int count, GetDataMode mode, GetPublicationsCallback callback);
+        void PostPublication(int userId, string photoPath, ResultCallback callback);
     }
 }

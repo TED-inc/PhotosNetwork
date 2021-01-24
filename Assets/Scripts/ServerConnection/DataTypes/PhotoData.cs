@@ -17,11 +17,15 @@ namespace TEDinc.PhotosNetwork
         {
             if (!Directory.Exists(DirectoryCashePath))
                 Directory.CreateDirectory(DirectoryCashePath);
+            File.WriteAllBytes(FilePathInCahse, Data);
         }
 
-        public void ConvertTextureToData(Texture2D texture)
-        {
+        public PhotoData() { } // required for loading from SQL
 
+        public PhotoData(string photoPath)
+        {
+            Texture2D textureFrom = NativeGallery.LoadImageAtPath(photoPath, maxSize: 2048, generateMipmaps: false, markTextureNonReadable: false);
+            Data = textureFrom.EncodeToJPG();
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace TEDinc.PhotosNetwork
+﻿namespace TEDinc.PhotosNetwork
 {
     public interface IServerConnection
     {
         IUserService UserService { get; }
-
-        void Setup();
+        IPublicationService PublicationService { get; }
+        ICommentService CommentService { get; }
     }
 }
