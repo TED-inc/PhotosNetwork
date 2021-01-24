@@ -22,7 +22,7 @@ namespace TEDinc.PhotosNetwork
             });
 
             while (!initilized)
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
             connectionOverlay.SetActive(false);
         }
     }

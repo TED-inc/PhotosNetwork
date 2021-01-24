@@ -4,6 +4,12 @@ namespace TEDinc.PhotosNetwork
 {
     public sealed class LocalUserService : LocalServiceBase, IUserService
     {
+        public void StartLoggedIn(int id, UserCallback callback)
+        {
+            User user = connection.Table<User>().Where((u) => u.Id == id).FirstOrDefault();
+            callback.Invoke(user, user == null ? Result.Failed : Result.Complete);
+        }
+
         public void LogIn(string username, UserCallback callback)
         {
             User user = connection.Table<User>().Where((u) => u.Username == username).FirstOrDefault();
@@ -21,6 +27,7 @@ namespace TEDinc.PhotosNetwork
                 callback.Invoke(user, Result.Complete);
             }
         }
+
 
         public LocalUserService(SQLiteConnection connection) : base(connection) { }
     }
