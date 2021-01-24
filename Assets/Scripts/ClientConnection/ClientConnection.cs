@@ -14,15 +14,9 @@ namespace TEDinc.PhotosNetwork
         private IEnumerator Start()
         {
             connectionOverlay.SetActive(true);
-            bool initilized = false;
+            serverConnection = new LocalServerConnection();
 
-            Task.Run(() => {
-                serverConnection = new LocalServerConnection();
-                initilized = true;
-            });
-
-            while (!initilized)
-                yield return new WaitForSecondsRealtime(0.1f);
+            yield return serverConnection.Setup();
             connectionOverlay.SetActive(false);
         }
     }

@@ -53,6 +53,7 @@ namespace TEDinc.PhotosNetwork
         {
             CurrentUser = null;
             loginAndRegisterPage.SetActive(true);
+            PlayerPrefs.SetInt(nameof(CurrentUser), -1);
             OnUserChanged?.Invoke();
         }
 
