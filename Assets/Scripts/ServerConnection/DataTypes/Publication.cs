@@ -8,15 +8,15 @@ namespace TEDinc.PhotosNetwork
         [PrimaryKey, Unique, AutoIncrement]
         public int Id { get; private set; }
         public int UserId { get; private set; }
+        public int PhotoId { get; private set; }
         public long DataTimeUTC { get; private set; }
-        public byte[] PhotoData { get; private set; }
 
         public Publication() { } // required for loading from SQL
 
-        public Publication(int userId, byte[] photoData)
+        public Publication(int userId, int photoId)
         {
             UserId = userId;
-            PhotoData = photoData;
+            PhotoId = photoId;
             DataTimeUTC = DateTime.UtcNow.Ticks;
         }
     }

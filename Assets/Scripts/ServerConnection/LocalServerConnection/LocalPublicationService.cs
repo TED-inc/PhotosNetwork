@@ -14,9 +14,12 @@ namespace TEDinc.PhotosNetwork
             throw new System.NotImplementedException();
         }
 
-        public void PostPublication(int userId, string photoPath, ResultCallback callback)
+        public void PostPublication(int userId, byte[] photoData, ResultCallback callback = null)
         {
-            throw new System.NotImplementedException();
+            PhotoData photo = new PhotoData(photoData);
+            connection.Insert(photo);
+            connection.Insert(new Publication(userId, photo.Id));
+            callback?.Invoke(Result.Complete);
         }
 
         public LocalPublicationService(SQLiteConnection connection) : base(connection) { }

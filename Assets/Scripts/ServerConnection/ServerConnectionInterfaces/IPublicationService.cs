@@ -4,6 +4,6 @@
     {
         void GetPublications(int count, GetPublicationsCallback callback);
         void GetPublications(int fromPublicationId, int count, GetDataMode mode, GetPublicationsCallback callback);
-        void PostPublication(int userId, string photoPath, ResultCallback callback);
+        void PostPublication(int userId, byte[] photoData, ResultCallback callback = null);
     }
 }
