@@ -2,7 +2,7 @@
 
 namespace TEDinc.PhotosNetwork
 {
-    public class LocalCommentService : LocalServiceBase, ICommentService
+    public sealed class LocalCommentService : LocalServiceBase, ICommentService
     {
         public void EditComment(int userId, int commentId, string newMessage, ResultCallback callback)
         {

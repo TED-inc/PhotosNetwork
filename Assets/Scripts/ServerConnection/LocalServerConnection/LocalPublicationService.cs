@@ -2,7 +2,7 @@
 
 namespace TEDinc.PhotosNetwork
 {
-    public class LocalPublicationService : LocalServiceBase, IPublicationService
+    public sealed class LocalPublicationService : LocalServiceBase, IPublicationService
     {
         public void GetPublications(int count, GetPublicationsCallback callback)
         {
