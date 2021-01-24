@@ -14,12 +14,12 @@ namespace TEDinc.PhotosNetwork
 
         public Comment() { } // required for loading from SQL
 
-        public Comment(int userId, int publicationId, long dataTimeUTC, string message)
+        public Comment(int userId, int publicationId, string message)
         {
             UserId = userId;
             PublicationId = publicationId;
-            DataTimeUTC = dataTimeUTC;
             Message = message;
+            DataTimeUTC = DateTime.UtcNow.Ticks;
         }
     }
 }

@@ -12,16 +12,16 @@ namespace TEDinc.PhotosNetwork
         private TMP_Text usernameLabel;
 
         private int publicationId;
+        private IntDelegeate onComment;
 
-        public void OpenComments()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OpenComments() =>
+            onComment.Invoke(publicationId);
 
-        public void Setup(string username, int publicationId)
+        public void Setup(string username, int publicationId, IntDelegeate onComment)
         {
             usernameLabel.text = username;
             this.publicationId = publicationId;
+            this.onComment = onComment;
             name = $"Publication[{username},{publicationId}]";
         }
 
