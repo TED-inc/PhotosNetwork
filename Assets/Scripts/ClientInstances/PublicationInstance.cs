@@ -29,6 +29,14 @@ namespace TEDinc.PhotosNetwork
         {
             image.texture = texture;
             name += $" {texture.width}x{texture.height}";
+
+            RectTransform rectTransform = (transform as RectTransform);
+
+            image.rectTransform.sizeDelta = new Vector2(
+                rectTransform.rect.width,
+                (float)texture.height / texture.width * rectTransform.rect.width);
+
+            rectTransform.sizeDelta += Vector2.up * image.rectTransform.sizeDelta.y;
         }
     }
 }

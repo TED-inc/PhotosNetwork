@@ -24,10 +24,8 @@ namespace TEDinc.PhotosNetwork
 
         private IEnumerator Start()
         {
-            Debug.Log("S1");
             while (client.serverConnection == null)
                 yield return new WaitForSecondsRealtime(0.1f);
-            Debug.Log("S2");
 
             int loginedId = PlayerPrefs.GetInt(nameof(CurrentUser), -1);
             if (loginedId != -1)

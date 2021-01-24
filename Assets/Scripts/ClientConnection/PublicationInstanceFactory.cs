@@ -14,6 +14,10 @@ namespace TEDinc.PhotosNetwork
         private Transform publicationsParent;
         private PublicationInstance publicationPrefab;
         private Dictionary<int, PublicationInstance> publicationInstances = new Dictionary<int, PublicationInstance>(maxPublicationsCount);
+        private int lastPublicationId;
+        private long lastPublicationTime;
+        private int firstPublicationId;
+        private long firstPublicationTime = long.MaxValue;
 
         private string DirectoryCashePath => $"{Application.temporaryCachePath}/Images";
         private string GetFilePathInCahse(int id) => $"{DirectoryCashePath}/{id}.jpg";
@@ -22,22 +26,42 @@ namespace TEDinc.PhotosNetwork
         {
             if (publicationInstances.Count == 0)
                 connection.PublicationService.GetPublications(loadCount, Callback);
+            else
+                connection.PublicationService.GetPublications(
+                    dataMode == GetDataMode.After ?
+                        lastPublicationId :
+                        firstPublicationId,
+                    loadCount, dataMode, Callback);
 
 
 
             void Callback((Publication publication, User user)[] publications, Result result)
             {
                 if (result != Result.Failed)
+                {
                     foreach ((Publication publication, User user) publicationData in publications)
                     {
                         if (publicationInstances.ContainsKey(publicationData.publication.Id))
                             continue;
 
+
+                        if (publicationData.publication.DataTimeUTC > lastPublicationTime)
+                        {
+                            lastPublicationTime = publicationData.publication.DataTimeUTC;
+                            lastPublicationId = publicationData.publication.Id;
+                        }
+                        if (publicationData.publication.DataTimeUTC < firstPublicationTime)
+                        {
+                            firstPublicationTime = publicationData.publication.DataTimeUTC;
+                            firstPublicationId = publicationData.publication.Id;
+                        }
+
+
                         string cashePath = GetFilePathInCahse(publicationData.publication.PhotoId);
                         PublicationInstance instance = GameObject.Instantiate(publicationPrefab, publicationsParent);
                         publicationInstances.Add(publicationData.publication.Id, instance);
 
-                        if (dataMode == GetDataMode.Before)
+                        if (dataMode == GetDataMode.After)
                             instance.transform.SetAsFirstSibling();
                         instance.Setup(publicationData.user.Username, publicationData.publication.Id);
 
@@ -51,6 +75,7 @@ namespace TEDinc.PhotosNetwork
                             connection.PublicationService.GetPhoto(publicationData.publication.PhotoId,
                                 (photoData, photoCallbackResult) => PhotoLoadCallback(photoData, photoCallbackResult, instance));
                     }
+                }
 
 
                 void PhotoLoadCallback(PhotoData photoData, Result photoCallbackResult, PublicationInstance instance)

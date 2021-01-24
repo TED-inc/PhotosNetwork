@@ -20,12 +20,35 @@ namespace TEDinc.PhotosNetwork
                 else
                     break;
             }
+            publications.Reverse();
             callback.Invoke(publications.ToArray(), publications.Count == count ? Result.Complete : Result.ParticularlyComplete);
         }
 
         public void GetPublications(int fromPublicationId, int count, GetDataMode mode, GetPublicationsCallback callback)
         {
-            throw new System.NotImplementedException();
+            int i = 0;
+            bool startOnNext = false;
+            List<(Publication, User)> publications = new List<(Publication, User)>(count);
+            IEnumerable<Publication> enumerator = connection.Table<Publication>().OrderBy(pubication => pubication.DataTimeUTC);
+            if (mode == GetDataMode.Before)
+                enumerator = enumerator.Reverse();
+
+            foreach (Publication pubication in enumerator)
+            {
+                if (startOnNext)
+                {
+                    if (i++ < count)
+                    { 
+                        User user = connection.Table<User>().Where(u => u.Id == pubication.UserId).FirstOrDefault();
+                        publications.Add((pubication, user));
+                    }
+                    else
+                        break;
+                }
+                else
+                    startOnNext = pubication.Id == fromPublicationId;
+            }
+            callback.Invoke(publications.ToArray(), publications.Count == count ? Result.Complete : Result.ParticularlyComplete);
         }
 
         public void PostPublication(int userId, byte[] photoData, ResultCallback callback = null)

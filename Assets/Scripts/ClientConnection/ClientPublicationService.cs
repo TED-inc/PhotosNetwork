@@ -34,17 +34,17 @@ namespace TEDinc.PhotosNetwork
         private void Update()
         {
             if (initilized
-                && lastRefreshTime + refreshUpdateDelay < Time.realtimeSinceStartup)
+                && lastRefreshTime + refreshUpdateDelay < Time.timeSinceLevelLoad)
             {
                 Vector3[] corners = new Vector3[4];
                 publicationsParent.GetWorldCorners(corners);
-                bool updateFromTop = camera.WorldToViewportPoint(corners[1]).y < 0.9f;
-                bool updateFromBottom = camera.WorldToViewportPoint(corners[0]).y > 0.1f;
+                bool updateFromTop = camera.WorldToViewportPoint(corners[1]).y < 0.95f;
+                bool updateFromBottom = camera.WorldToViewportPoint(corners[0]).y > -0.5f;
 
                 if (updateFromTop || updateFromBottom)
                 {
-                    lastRefreshTime = Time.realtimeSinceStartup;
-                    publicationFactory.Load(updateFromTop ? GetDataMode.Before : GetDataMode.After);
+                    lastRefreshTime = Time.timeSinceLevelLoad;
+                    publicationFactory.Load(updateFromTop ? GetDataMode.After : GetDataMode.Before);
                 }
             }
         }
