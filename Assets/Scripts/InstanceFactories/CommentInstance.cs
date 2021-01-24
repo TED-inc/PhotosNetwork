@@ -4,7 +4,8 @@ using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void IntDelegeate(int commentId);
+    public delegate void EditComment(int commentId, string oldMessage);
+    public delegate void DeleteComment(int commentId);
 
     public class CommentInstance : MonoBehaviour
     {
@@ -20,10 +21,10 @@ namespace TEDinc.PhotosNetwork
         private GameObject editSubMenu;
 
         private int commentId;
-        private IntDelegeate onEdit;
-        private IntDelegeate onDelete;
+        private EditComment onEdit;
+        private DeleteComment onDelete;
 
-        public void Setup(Comment comment, User user, bool enableEdit, IntDelegeate onEdit, IntDelegeate onDelete)
+        public void Setup(Comment comment, User user, bool enableEdit, EditComment onEdit, DeleteComment onDelete)
         {
             commentId = comment.Id;
             this.onEdit = onEdit;
@@ -40,7 +41,7 @@ namespace TEDinc.PhotosNetwork
         }
 
         public void Edit() =>
-            onEdit.Invoke(commentId);
+            onEdit.Invoke(commentId, label.text);
 
         public void Delete() =>
             onDelete.Invoke(commentId);

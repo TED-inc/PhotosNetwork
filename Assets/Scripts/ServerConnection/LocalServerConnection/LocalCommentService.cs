@@ -28,12 +28,27 @@ namespace TEDinc.PhotosNetwork
 
         public void EditComment(int userId, int commentId, string newMessage, ResultCallback callback)
         {
-            throw new System.NotImplementedException();
+            Comment comment = connection.Table<Comment>().Where(c => c.Id == commentId).FirstOrDefault();
+            if (comment != null && userId == comment.UserId)
+            {
+                comment.ChangeMassage(newMessage);
+                connection.InsertOrReplace(comment);
+                callback.Invoke(Result.Complete);
+            }
+            else
+                callback.Invoke(Result.Failed);
         }
 
         public void RemoveComment(int userId, int commentId, ResultCallback callback)
         {
-            throw new System.NotImplementedException();
+            Comment comment = connection.Table<Comment>().Where(c => c.Id == commentId).FirstOrDefault();
+            if (comment != null && userId == comment.UserId)
+            {
+                connection.Delete(comment);
+                callback.Invoke(Result.Complete);
+            }
+            else
+                callback.Invoke(Result.Failed);
         }
 
         public LocalCommentService(SQLiteConnection connection) : base(connection) { }

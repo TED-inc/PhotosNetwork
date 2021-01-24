@@ -14,7 +14,7 @@ namespace TEDinc.PhotosNetwork
         private List<CommentInstance> instances = new List<CommentInstance>();
 
 
-        public void RefreshComments(int publicationId)
+        public void RefreshComments(int publicationId, Notify onComplete)
         {
             connection.CommentService.GetComments(publicationId, Callback);
 
@@ -48,6 +48,8 @@ namespace TEDinc.PhotosNetwork
                         commentService.EditComment,
                         commentService.DeleteComment);
                 }
+
+                onComplete.Invoke();
             }
         }
 

@@ -22,6 +22,7 @@ namespace TEDinc.PhotosNetwork
 
         private int currentPublicationId;
         private CommentInstanceFactory commentFactory;
+        private int editCommentId = -1;
 
         private IEnumerator Start()
         {
@@ -43,25 +44,33 @@ namespace TEDinc.PhotosNetwork
         public void PostComment() =>
             SendComment();
 
-        public void EditComment(int commentId) =>
-            SendComment(commentId);
-
-        public void DeleteComment(int id)
+        public void EditComment(int commentId, string oldMessage)
         {
-
+            editCommentId = commentId;
+            commentInput.text = oldMessage;
         }
 
-        private void SendComment(int commentId = -1)
+        public void DeleteComment(int commentId)
         {
-            if (commentId != -1)
-                client.serverConnection.CommentService.EditComment(userService.CurrentUser.Id, commentId, commentInput.text, Callback);
-            else
-                client.serverConnection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, commentInput.text, Callback);
-            commentInput.DeactivateInputField();
+            client.serverConnection.CommentService.RemoveComment(userService.CurrentUser.Id, commentId, Callback);
 
             void Callback(Result result)
             {
-                commentInput.ActivateInputField();
+                if (result != Result.Failed)
+                    Refresh();
+            }
+        }
+
+        private void SendComment()
+        {
+            if (editCommentId != -1)
+                client.serverConnection.CommentService.EditComment(userService.CurrentUser.Id, editCommentId, commentInput.text, Callback);
+            else
+                client.serverConnection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, commentInput.text, Callback);
+            editCommentId = -1;
+
+            void Callback(Result result)
+            {
                 if (result != Result.Failed)
                 {
                     Refresh();
@@ -72,8 +81,18 @@ namespace TEDinc.PhotosNetwork
 
         private void Refresh()
         {
-            commentFactory.RefreshComments(currentPublicationId);
-            scrollRect.normalizedPosition = Vector2.zero;
+            commentFactory.RefreshComments(currentPublicationId, CallBack);
+
+            void CallBack()
+            {
+                StartCoroutine(ResetScrollRect());
+                
+                IEnumerator ResetScrollRect()
+                {
+                    yield return new WaitForEndOfFrame();
+                    scrollRect.normalizedPosition = Vector2.zero;
+                }
+            }
         }
     }
 }
