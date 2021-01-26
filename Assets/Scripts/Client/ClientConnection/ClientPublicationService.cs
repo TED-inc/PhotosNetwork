@@ -16,22 +16,22 @@ namespace TEDinc.PhotosNetwork
         [SerializeField]
         private RectTransform publicationsParent;
         [SerializeField]
-        private PublicationInstance publicationPrefab;
+        private PublicationDisplay publicationPrefab;
         [SerializeField, Min(0.1f)]
         private float refreshUpdateDelay = 3f;
 
         private float lastRefreshTime;
         private bool initilized;
 
-        private PublicationInstanceFactory publicationFactory;
+        private PublicationDisplayBuilder publicationDisplayBuilder;
 
         private IEnumerator Start()
         {
             while(client.serverConnection == null)
                 yield return new WaitForSecondsRealtime(0.1f);
 
-            publicationFactory = new PublicationInstanceFactory(client.serverConnection, publicationsParent, commentService, publicationPrefab);
-            publicationFactory.Load();
+            publicationDisplayBuilder = new PublicationDisplayBuilder(client.serverConnection, publicationsParent, commentService, publicationPrefab);
+            publicationDisplayBuilder.Load();
             initilized = true;
         }
 
@@ -48,7 +48,7 @@ namespace TEDinc.PhotosNetwork
                 if (updateFromTop || updateFromBottom)
                 {
                     lastRefreshTime = Time.timeSinceLevelLoad;
-                    publicationFactory.Load(updateFromTop ? GetDataMode.After : GetDataMode.Before);
+                    publicationDisplayBuilder.Load(updateFromTop ? GetDataMode.After : GetDataMode.Before);
                 }
             }
         }

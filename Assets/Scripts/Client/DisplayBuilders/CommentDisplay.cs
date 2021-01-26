@@ -4,10 +4,7 @@ using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void EditComment(int commentId, string oldMessage);
-    public delegate void DeleteComment(int commentId);
-
-    public class CommentInstance : MonoBehaviour
+    public sealed class CommentDisplay : MonoBehaviour
     {
         [SerializeField]
         private TMP_Text label;

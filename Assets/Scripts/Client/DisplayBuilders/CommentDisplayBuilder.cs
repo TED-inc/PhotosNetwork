@@ -3,15 +3,18 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public class CommentInstanceFactory
+    public delegate void EditComment(int commentId, string oldMessage);
+    public delegate void DeleteComment(int commentId);
+
+    public sealed class CommentDisplayBuilder
     {
         private IServerConnection connection;
         private ClientUserService userService;
         private ClientCommentService commentService;
-        private CommentInstance commentPrefab;
+        private CommentDisplay commentPrefab;
         private Transform commentsParent;
 
-        private List<CommentInstance> instances = new List<CommentInstance>();
+        private List<CommentDisplay> instances = new List<CommentDisplay>();
 
 
         public void RefreshComments(int publicationId, Notify onComplete)
@@ -39,7 +42,7 @@ namespace TEDinc.PhotosNetwork
 
                 for (; i < commentDatas.Length; i++)
                 {
-                    CommentInstance instance = GameObject.Instantiate(commentPrefab, commentsParent);
+                    CommentDisplay instance = GameObject.Instantiate(commentPrefab, commentsParent);
                     instances.Add(instance);
                     instance.Setup(
                         commentDatas[i].comment, 
@@ -53,7 +56,7 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public CommentInstanceFactory(IServerConnection connection, ClientUserService userService, ClientCommentService commentService, CommentInstance commentPrefab, Transform commentsParent)
+        public CommentDisplayBuilder(IServerConnection connection, ClientUserService userService, ClientCommentService commentService, CommentDisplay commentPrefab, Transform commentsParent)
         {
             this.connection = connection;
             this.userService = userService;

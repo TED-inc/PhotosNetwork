@@ -1,11 +1,11 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public class PublicationInstanceFactory
+    public delegate void OpenComments(int commentId);
+    public sealed class PublicationDisplayBuilder
     {
         private const int loadCount = 5;
         private const int maxPublicationsCount = 50;
@@ -13,8 +13,8 @@ namespace TEDinc.PhotosNetwork
         private IServerConnection connection;
         private Transform publicationsParent;
         private ClientCommentService commentService;
-        private PublicationInstance publicationPrefab;
-        private Dictionary<int, PublicationInstance> publicationInstances = new Dictionary<int, PublicationInstance>(maxPublicationsCount);
+        private PublicationDisplay publicationPrefab;
+        private Dictionary<int, PublicationDisplay> publicationInstances = new Dictionary<int, PublicationDisplay>(maxPublicationsCount);
         private int lastPublicationId;
         private long lastPublicationTime;
         private int firstPublicationId;
@@ -46,7 +46,7 @@ namespace TEDinc.PhotosNetwork
                             continue;
 
                         ActualizeLastAndFirstPublicationsIds(publicationData.publication);
-                        PublicationInstance instance = CreatePublicationInsatnce(
+                        PublicationDisplay instance = CreatePublicationInsatnce(
                             publicationData.publication.Id, 
                             publicationData.user.Username);
                         SetPhoto(instance, publicationData.publication.PhotoId);
@@ -69,9 +69,9 @@ namespace TEDinc.PhotosNetwork
                     }
                 }
 
-                PublicationInstance CreatePublicationInsatnce(int publicationId, string username)
+                PublicationDisplay CreatePublicationInsatnce(int publicationId, string username)
                 {
-                    PublicationInstance instance = GameObject.Instantiate(publicationPrefab, publicationsParent);
+                    PublicationDisplay instance = GameObject.Instantiate(publicationPrefab, publicationsParent);
                     publicationInstances.Add(publicationId, instance);
 
                     if (dataMode == GetDataMode.After)
@@ -81,7 +81,7 @@ namespace TEDinc.PhotosNetwork
                     return instance;
                 }
 
-                void SetPhoto(PublicationInstance instance, int photoId)
+                void SetPhoto(PublicationDisplay instance, int photoId)
                 {
                     string cashePath = GetFilePathInCahse(photoId);
 
@@ -110,7 +110,7 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public PublicationInstanceFactory(IServerConnection connection, Transform publicationsParent, ClientCommentService commentService, PublicationInstance publicationPrefab)
+        public PublicationDisplayBuilder(IServerConnection connection, Transform publicationsParent, ClientCommentService commentService, PublicationDisplay publicationPrefab)
         {
             this.connection = connection;
             this.publicationsParent = publicationsParent;

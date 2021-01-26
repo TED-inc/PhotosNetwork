@@ -16,12 +16,12 @@ namespace TEDinc.PhotosNetwork
         [SerializeField]
         private ScrollRect scrollRect;
         [SerializeField]
-        private CommentInstance commentPrefab;
+        private CommentDisplay commentPrefab;
         [SerializeField]
         private TMP_InputField commentInput;
 
         private int currentPublicationId;
-        private CommentInstanceFactory commentFactory;
+        private CommentDisplayBuilder commentDisplayBuilder;
         private int editCommentId = -1;
 
         private IEnumerator Start()
@@ -29,7 +29,7 @@ namespace TEDinc.PhotosNetwork
             while (client.serverConnection == null)
                 yield return new WaitForSecondsRealtime(0.1f);
 
-            commentFactory = new CommentInstanceFactory(client.serverConnection, userService, this, commentPrefab, commentsParent);
+            commentDisplayBuilder = new CommentDisplayBuilder(client.serverConnection, userService, this, commentPrefab, commentsParent);
         }
 
         public void ShowPage(int publicationId)
@@ -81,7 +81,7 @@ namespace TEDinc.PhotosNetwork
 
         private void Refresh()
         {
-            commentFactory.RefreshComments(currentPublicationId, CallBack);
+            commentDisplayBuilder.RefreshComments(currentPublicationId, CallBack);
 
             void CallBack()
             {
