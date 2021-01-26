@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void Notify();
-
-    public sealed class ClientUserService : ClientServiceBase
+    public sealed class ClientUserService : ClientServiceBase, IClientUserService
     {
         [Header("Login and Register")]
         [SerializeField]
@@ -23,31 +20,6 @@ namespace TEDinc.PhotosNetwork
         public User CurrentUser { get; private set; }
         public event Notify OnUserChanged;
 
-        protected override IEnumerator Start()
-        {
-            yield return base.Start();
-
-            int loginedId = PlayerPrefs.GetInt(nameof(CurrentUser), -1);
-            if (loginedId != -1)
-            {
-                connectionOverlay.SetActive(true);
-                connection.UserService.StartLoggedIn(loginedId, Callback);
-            }
-            else
-                loginAndRegisterPage.SetActive(true);
-
-
-            void Callback(User user, Result result)
-            {
-                if (result == Result.Complete)
-                    CurrentUser = user;
-                else
-                    loginAndRegisterPage.SetActive(true);
-
-                connectionOverlay.SetActive(false);
-            }
-            OnUserChanged?.Invoke();
-        }
 
         public void LogOut()
         {
@@ -86,6 +58,31 @@ namespace TEDinc.PhotosNetwork
                 connectionOverlay.SetActive(false);
             }
             OnUserChanged?.Invoke();
+        }
+
+        public ClientUserService(IServerConnection connection) : base(connection)
+        {
+            int loginedId = PlayerPrefs.GetInt(nameof(CurrentUser), -1);
+            if (loginedId != -1)
+            {
+                connectionOverlay.SetActive(true);
+                connection.UserService.StartLoggedIn(loginedId, Callback);
+            }
+            else
+                loginAndRegisterPage.SetActive(true);
+
+
+
+            void Callback(User user, Result result)
+            {
+                if (result == Result.Complete)
+                    CurrentUser = user;
+                else
+                    loginAndRegisterPage.SetActive(true);
+
+                connectionOverlay.SetActive(false);
+                OnUserChanged?.Invoke();
+            }
         }
     }
 }

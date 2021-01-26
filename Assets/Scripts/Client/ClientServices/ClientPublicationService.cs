@@ -3,36 +3,23 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public sealed class ClientPublicationService : ClientServiceBase
+    public sealed class ClientPublicationService : ClientServiceBase, IClientPublicationService
     {
-        [Header("Services")]
+
+        private IClientUserService userService;
         [SerializeField]
-        private ClientUserService userService;
-        [SerializeField]
-        private ClientCommentService commentService;
-        [Header("Publications Settings")]
-        [SerializeField]
-        private new Camera camera;
-        [SerializeField]
+        private IClientCommentService commentService;
+
+        private Camera camera;
+
         private RectTransform publicationsParent;
-        [SerializeField]
         private PublicationDisplay publicationPrefab;
-        [SerializeField, Min(0.1f)]
         private float refreshUpdateDelay = 3f;
 
         private float lastRefreshTime;
         private bool initilized;
 
         private PublicationDisplayBuilder publicationDisplayBuilder;
-
-        protected override IEnumerator Start()
-        {
-            yield return base.Start();
-
-            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, publicationsParent, commentService, publicationPrefab);
-            publicationDisplayBuilder.Load();
-            initilized = true;
-        }
 
         private void Update()
         {
@@ -52,6 +39,11 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
+        public void Load(GetDataMode mode)
+        {
+
+        }
+
         public void CreatePublication()
         {
             NativeGallery.GetImageFromGallery(Callback, "Load publication image");
@@ -61,6 +53,17 @@ namespace TEDinc.PhotosNetwork
                 Texture2D textureFrom = NativeGallery.LoadImageAtPath(photoPath, maxSize: 2048, generateMipmaps: false, markTextureNonReadable: false);
                 connection.PublicationService.PostPublication(userService.CurrentUser.Id, textureFrom.EncodeToJPG());
             }
+        }
+
+        public ClientPublicationService(IServerConnection connection, IClientUserService userService, IClientCommentService commentService) : base(connection)
+        {
+            this.userService = userService;
+            this.commentService = commentService;
+
+            camera = Camera.main;
+            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, publicationsParent, commentService, publicationPrefab);
+            publicationDisplayBuilder.Load();
+            initilized = true;
         }
     }
 }

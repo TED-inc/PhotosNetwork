@@ -5,7 +5,6 @@ namespace TEDinc.PhotosNetwork.MonoComponents
 {
     public sealed class CurrentUserNameDisplay : MonoBehaviour
     {
-        [SerializeField]
         private ClientUserService clientUserService;
         [SerializeField]
         private TMP_Text username;

@@ -120,6 +120,49 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &99353588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99353590}
+  - component: {fileID: 99353589}
+  m_Layer: 0
+  m_Name: '[CoroutineRunner]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &99353589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99353588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283388b5f1705294db5fd3db28f6ae6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &99353590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99353588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &122623664
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +333,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316017512}
+      - m_Target: {fileID: 0}
         m_MethodName: HidePage
         m_Mode: 1
         m_Arguments:
@@ -301,7 +344,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1693021903}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowPage
         m_Mode: 1
         m_Arguments:
@@ -749,7 +792,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316017512}
+      - m_Target: {fileID: 0}
         m_MethodName: Register
         m_Mode: 1
         m_Arguments:
@@ -1239,7 +1282,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1888756169}
+      - m_Target: {fileID: 0}
         m_MethodName: HidePage
         m_Mode: 1
         m_Arguments:
@@ -1986,7 +2029,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693021903}
+      - m_Target: {fileID: 0}
         m_MethodName: CreatePublication
         m_Mode: 1
         m_Arguments:
@@ -2150,7 +2193,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1888756169}
+      - m_Target: {fileID: 0}
         m_MethodName: PostComment
         m_Mode: 1
         m_Arguments:
@@ -2683,10 +2726,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1316017511}
-  - {fileID: 1888756168}
-  - {fileID: 1693021902}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3233,56 +3273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickPreventor: {fileID: 2048306671}
---- !u!1 &1316017510
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1316017511}
-  - component: {fileID: 1316017512}
-  m_Layer: 0
-  m_Name: '[ClientUserService]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1316017511
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316017510}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1041105083}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1316017512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316017510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1544c1010e743149a59e5c60baf8351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items:
-  - {fileID: 1935521573}
-  - {fileID: 2137438169}
-  connectionOverlay: {fileID: 2048306671}
-  loginAndRegisterPage: {fileID: 1031609325}
-  usernameInputField: {fileID: 2069495992}
-  errorLabel: {fileID: 1608076929}
 --- !u!1 &1418637184
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,7 +3355,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316017512}
+      - m_Target: {fileID: 0}
         m_MethodName: LogIn
         m_Mode: 1
         m_Arguments:
@@ -3649,7 +3639,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316017512}
+      - m_Target: {fileID: 0}
         m_MethodName: LogOut
         m_Mode: 1
         m_Arguments:
@@ -3745,7 +3735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccbc2fe5896d941878df23301e5a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientUserService: {fileID: 1316017512}
   username: {fileID: 1459908912}
 --- !u!1 &1608076927
 GameObject:
@@ -3902,59 +3891,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608076927}
   m_CullTransparentMesh: 0
---- !u!1 &1693021901
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1693021902}
-  - component: {fileID: 1693021903}
-  m_Layer: 0
-  m_Name: '[ClientPublicationService]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1693021902
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693021901}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1041105083}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1693021903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693021901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479acaf9a003732459be074bfff8e6d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items:
-  - {fileID: 698190848}
-  - {fileID: 1158218939}
-  userService: {fileID: 1316017512}
-  commentService: {fileID: 1888756169}
-  camera: {fileID: 519420031}
-  publicationsParent: {fileID: 995359599}
-  publicationPrefab: {fileID: 8967607175634686843, guid: f812fc384d5a3d043ad040d36fd45f06,
-    type: 3}
-  refreshUpdateDelay: 1
 --- !u!1 &1726566379
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,57 +4095,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745939938}
   m_CullTransparentMesh: 0
---- !u!1 &1888756167
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1888756168}
-  - component: {fileID: 1888756169}
-  m_Layer: 0
-  m_Name: '[ClientCommentService]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1888756168
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1888756167}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1041105083}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1888756169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1888756167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b4c9b102553e0647a4deb9a7ec978f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items:
-  - {fileID: 922503793}
-  userService: {fileID: 1316017512}
-  commentsParent: {fileID: 159881529}
-  scrollRect: {fileID: 576448653}
-  commentPrefab: {fileID: 7757953728384677770, guid: fdb30ef4092e17248bcf8fabe7b173c1,
-    type: 3}
-  commentInput: {fileID: 523301051}
 --- !u!1 &1935521573
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,7 +4214,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316017512}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowPage
         m_Mode: 1
         m_Arguments:
@@ -4340,7 +4225,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1693021903}
+      - m_Target: {fileID: 0}
         m_MethodName: HidePage
         m_Mode: 1
         m_Arguments:

@@ -11,8 +11,8 @@ namespace TEDinc.PhotosNetwork
         private const int maxPublicationsCount = 50;
 
         private IServerConnection connection;
+        private IClientCommentService commentService;
         private Transform publicationsParent;
-        private ClientCommentService commentService;
         private PublicationDisplay publicationPrefab;
         private Dictionary<int, PublicationDisplay> publicationInstances = new Dictionary<int, PublicationDisplay>(maxPublicationsCount);
         private int lastPublicationId;
@@ -110,7 +110,7 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public PublicationDisplayBuilder(IServerConnection connection, Transform publicationsParent, ClientCommentService commentService, PublicationDisplay publicationPrefab)
+        public PublicationDisplayBuilder(IServerConnection connection, Transform publicationsParent, IClientCommentService commentService, PublicationDisplay publicationPrefab)
         {
             this.connection = connection;
             this.publicationsParent = publicationsParent;

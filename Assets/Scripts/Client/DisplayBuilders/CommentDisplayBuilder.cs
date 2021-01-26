@@ -10,8 +10,8 @@ namespace TEDinc.PhotosNetwork
     public sealed class CommentDisplayBuilder
     {
         private IServerConnection connection;
-        private ClientUserService userService;
-        private ClientCommentService commentService;
+        private IClientUserService userService;
+        private IClientCommentService commentService;
         private CommentDisplay commentPrefab;
         private Transform commentsParent;
 
@@ -70,7 +70,7 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public CommentDisplayBuilder(IServerConnection connection, ClientUserService userService, ClientCommentService commentService, CommentDisplay commentPrefab, Transform commentsParent)
+        public CommentDisplayBuilder(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, CommentDisplay commentPrefab, Transform commentsParent)
         {
             this.connection = connection;
             this.userService = userService;

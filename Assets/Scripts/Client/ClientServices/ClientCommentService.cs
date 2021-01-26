@@ -5,31 +5,20 @@ using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
-    public class ClientCommentService : ClientServiceBase
+    public class ClientCommentService : ClientServiceBase, IClientCommentService
     {
-        [Header("Services")]
-        [SerializeField]
-        private ClientUserService userService;
-        [Header("Comments Settings")]
-        [SerializeField]
+        private IClientUserService userService;
+
         private RectTransform commentsParent;
-        [SerializeField]
         private ScrollRect scrollRect;
-        [SerializeField]
         private CommentDisplay commentPrefab;
-        [SerializeField]
         private TMP_InputField commentInput;
 
         private int currentPublicationId;
         private CommentDisplayBuilder commentDisplayBuilder;
         private int editCommentId = -1;
 
-        protected override IEnumerator Start()
-        {
-            yield return base.Start();
 
-            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, commentPrefab, commentsParent);
-        }
 
         public void ShowPage(int publicationId)
         {
@@ -84,7 +73,7 @@ namespace TEDinc.PhotosNetwork
 
             void CallBack()
             {
-                StartCoroutine(ResetScrollRect());
+                CoroutineRunner.Instance.StartCoroutine(ResetScrollRect());
                 
                 IEnumerator ResetScrollRect()
                 {
@@ -92,6 +81,13 @@ namespace TEDinc.PhotosNetwork
                     scrollRect.normalizedPosition = Vector2.zero;
                 }
             }
+        }
+
+        public ClientCommentService(IServerConnection connection, IClientUserService userService) : base(connection)
+        {
+            this.userService = userService;
+
+            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, commentPrefab, commentsParent);
         }
     }
 }
