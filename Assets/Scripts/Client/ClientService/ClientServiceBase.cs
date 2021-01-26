@@ -1,13 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
     public abstract class ClientServiceBase : MonoBehaviour
     {
-        [SerializeField]
-        protected ClientConnection client;
+        protected IServerConnection connection;
         [SerializeField]
         private GameObject[] items;
+
+        protected virtual IEnumerator Start()
+        {
+            connection = ServerConnection.connection;
+
+            while (connection.CurrentState != ServerConnectionState.Connected)
+                yield return new WaitForSeconds(0.1f);
+        }
 
         public void ShowPage()
         {

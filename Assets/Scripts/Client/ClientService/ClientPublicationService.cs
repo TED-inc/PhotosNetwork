@@ -25,12 +25,11 @@ namespace TEDinc.PhotosNetwork
 
         private PublicationDisplayBuilder publicationDisplayBuilder;
 
-        private IEnumerator Start()
+        protected override IEnumerator Start()
         {
-            while(client.serverConnection == null)
-                yield return new WaitForSecondsRealtime(0.1f);
+            yield return base.Start();
 
-            publicationDisplayBuilder = new PublicationDisplayBuilder(client.serverConnection, publicationsParent, commentService, publicationPrefab);
+            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, publicationsParent, commentService, publicationPrefab);
             publicationDisplayBuilder.Load();
             initilized = true;
         }
@@ -60,7 +59,7 @@ namespace TEDinc.PhotosNetwork
             void Callback(string photoPath)
             {
                 Texture2D textureFrom = NativeGallery.LoadImageAtPath(photoPath, maxSize: 2048, generateMipmaps: false, markTextureNonReadable: false);
-                client.serverConnection.PublicationService.PostPublication(userService.CurrentUser.Id, textureFrom.EncodeToJPG());
+                connection.PublicationService.PostPublication(userService.CurrentUser.Id, textureFrom.EncodeToJPG());
             }
         }
     }

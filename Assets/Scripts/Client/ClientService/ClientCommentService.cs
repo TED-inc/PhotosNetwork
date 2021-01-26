@@ -24,12 +24,11 @@ namespace TEDinc.PhotosNetwork
         private CommentDisplayBuilder commentDisplayBuilder;
         private int editCommentId = -1;
 
-        private IEnumerator Start()
+        protected override IEnumerator Start()
         {
-            while (client.serverConnection == null)
-                yield return new WaitForSecondsRealtime(0.1f);
+            yield return base.Start();
 
-            commentDisplayBuilder = new CommentDisplayBuilder(client.serverConnection, userService, this, commentPrefab, commentsParent);
+            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, commentPrefab, commentsParent);
         }
 
         public void ShowPage(int publicationId)
@@ -52,7 +51,7 @@ namespace TEDinc.PhotosNetwork
 
         public void DeleteComment(int commentId)
         {
-            client.serverConnection.CommentService.RemoveComment(userService.CurrentUser.Id, commentId, Callback);
+            connection.CommentService.RemoveComment(userService.CurrentUser.Id, commentId, Callback);
 
             void Callback(Result result)
             {
@@ -64,9 +63,9 @@ namespace TEDinc.PhotosNetwork
         private void SendComment()
         {
             if (editCommentId != -1)
-                client.serverConnection.CommentService.EditComment(userService.CurrentUser.Id, editCommentId, commentInput.text, Callback);
+                connection.CommentService.EditComment(userService.CurrentUser.Id, editCommentId, commentInput.text, Callback);
             else
-                client.serverConnection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, commentInput.text, Callback);
+                connection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, commentInput.text, Callback);
             editCommentId = -1;
 
             void Callback(Result result)

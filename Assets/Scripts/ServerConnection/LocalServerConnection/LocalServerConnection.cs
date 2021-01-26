@@ -8,6 +8,8 @@ namespace TEDinc.PhotosNetwork
 {
     public sealed class LocalServerConnection : IServerConnection
     {
+        public event OnServerConnectStateChange OnServerConnectStateChange;
+        public ServerConnectionState CurrentState { get; private set; }
         public IUserService UserService { get; private set; }
         public IPublicationService PublicationService { get; private set; }
         public ICommentService CommentService { get; private set; }
@@ -15,8 +17,11 @@ namespace TEDinc.PhotosNetwork
         private SQLiteConnection connection;
         private const string DatabaseName = "local.db";
 
+
         public IEnumerator Setup()
         {
+            SetState(ServerConnectionState.Pending);
+
             string localDbPath = Application.streamingAssetsPath + "/" + DatabaseName;
             if (!Application.isEditor)
             {
@@ -43,6 +48,16 @@ namespace TEDinc.PhotosNetwork
             UserService = new LocalUserService(connection);
             PublicationService = new LocalPublicationService(connection);
             CommentService = new LocalCommentService(connection);
+
+            SetState(ServerConnectionState.Connected);
+        }
+
+        private void SetState(ServerConnectionState state)
+        {
+            bool invokeStateChange = state != CurrentState;
+            CurrentState = state;
+            if (invokeStateChange)
+                OnServerConnectStateChange?.Invoke(CurrentState);
         }
     }
 }

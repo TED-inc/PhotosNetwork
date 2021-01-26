@@ -23,16 +23,15 @@ namespace TEDinc.PhotosNetwork
         public User CurrentUser { get; private set; }
         public event Notify OnUserChanged;
 
-        private IEnumerator Start()
+        protected override IEnumerator Start()
         {
-            while (client.serverConnection == null)
-                yield return new WaitForSecondsRealtime(0.1f);
+            yield return base.Start();
 
             int loginedId = PlayerPrefs.GetInt(nameof(CurrentUser), -1);
             if (loginedId != -1)
             {
                 connectionOverlay.SetActive(true);
-                client.serverConnection.UserService.StartLoggedIn(loginedId, Callback);
+                connection.UserService.StartLoggedIn(loginedId, Callback);
             }
             else
                 loginAndRegisterPage.SetActive(true);
@@ -59,10 +58,10 @@ namespace TEDinc.PhotosNetwork
         }
 
         public void LogIn() =>
-            RequestUser(client.serverConnection.UserService.LogIn, "User not exist");
+            RequestUser(connection.UserService.LogIn, "User not exist");
 
         public void Register() =>
-            RequestUser(client.serverConnection.UserService.Register, "User already exist");
+            RequestUser(connection.UserService.Register, "User already exist");
 
         private void RequestUser(Action<string, UserCallback> request, string onErrorMessage)
         {

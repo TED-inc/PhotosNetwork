@@ -12,4 +12,11 @@
         Complete,
         ParticularlyComplete,
     }
+
+    public enum ServerConnectionState
+    {
+        Disconnected,
+        Pending,
+        Connected,
+    }
 }

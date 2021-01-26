@@ -1367,7 +1367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522068645
 GameObject:
@@ -2665,27 +2665,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1041105083}
-  - component: {fileID: 1041105082}
+  - component: {fileID: 1041105084}
   m_Layer: 0
-  m_Name: '[ClientConnection]'
+  m_Name: '[ClientRunner]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1041105082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041105081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c3106a5d77484b4293f5c450dfcab62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectionOverlay: {fileID: 2048306671}
 --- !u!4 &1041105083
 Transform:
   m_ObjectHideFlags: 0
@@ -2703,6 +2690,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1041105084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041105081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c3b76acd41f98429a2a4861af03f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1121553806
 GameObject:
   m_ObjectHideFlags: 0
@@ -3028,7 +3027,7 @@ RectTransform:
   - {fileID: 1031609326}
   - {fileID: 2048306672}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3190,6 +3189,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193922118}
   m_CullTransparentMesh: 0
+--- !u!1 &1310939742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1310939743}
+  - component: {fileID: 1310939744}
+  m_Layer: 0
+  m_Name: '[ClickPreventor]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1310939743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310939742}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310939744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310939742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c931c2fe275323a4493a806f6f3818aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickPreventor: {fileID: 2048306671}
 --- !u!1 &1316017510
 GameObject:
   m_ObjectHideFlags: 0
@@ -3233,7 +3276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1544c1010e743149a59e5c60baf8351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 1041105082}
   items:
   - {fileID: 1935521573}
   - {fileID: 2137438169}
@@ -3903,7 +3945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479acaf9a003732459be074bfff8e6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 1041105082}
   items:
   - {fileID: 698190848}
   - {fileID: 1158218939}
@@ -3978,7 +4019,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1736314397
 GameObject:
@@ -4161,7 +4202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4c9b102553e0647a4deb9a7ec978f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 1041105082}
   items:
   - {fileID: 922503793}
   userService: {fileID: 1316017512}
