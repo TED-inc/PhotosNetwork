@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
@@ -23,36 +24,49 @@ namespace TEDinc.PhotosNetwork
 
             void Callback((Comment comment, User user)[] commentDatas, Result result)
             {
-                int i = 0;
-                for (; i < instances.Count; i++)
-                {
-                    if (i < commentDatas.Length)
-                        instances[i].Setup(
-                            commentDatas[i].comment, 
-                            commentDatas[i].user, 
-                            userService.CurrentUser.Id == commentDatas[i].user.Id, 
-                            commentService.EditComment, 
-                            commentService.DeleteComment);
-                    else
-                        GameObject.Destroy(instances[i].gameObject);
-                }
-
-                if (instances.Count > commentDatas.Length)
-                    instances.RemoveRange(commentDatas.Length, instances.Count - commentDatas.Length);
-
-                for (; i < commentDatas.Length; i++)
-                {
-                    CommentDisplay instance = GameObject.Instantiate(commentPrefab, commentsParent);
-                    instances.Add(instance);
-                    instance.Setup(
-                        commentDatas[i].comment, 
-                        commentDatas[i].user,
-                        userService.CurrentUser.Id == commentDatas[i].user.Id, 
-                        commentService.EditComment,
-                        commentService.DeleteComment);
-                }
-
+                RefreshExistingCommentDisplays();
+                RemoveUnusedCommentDisplays();
+                AddAndRefresCommentDisplays();
                 onComplete.Invoke();
+
+
+
+                void RefreshExistingCommentDisplays()
+                {
+                    for (int i = 0; i < Math.Min(instances.Count, commentDatas.Length); i++)
+                        SetupComment(i);
+                }
+
+                void RemoveUnusedCommentDisplays()
+                {
+                    if (instances.Count > commentDatas.Length)
+                    {
+                        for (int i = commentDatas.Length; i < instances.Count; i++)
+                            GameObject.Destroy(instances[i].gameObject);
+
+                        instances.RemoveRange(commentDatas.Length, instances.Count - commentDatas.Length);
+                    }
+                }
+
+                void AddAndRefresCommentDisplays()
+                {
+                    for (int i = instances.Count; i < commentDatas.Length; i++)
+                    {
+                        CommentDisplay instance = GameObject.Instantiate(commentPrefab, commentsParent);
+                        instances.Add(instance);
+                        SetupComment(i);
+                    }
+                }
+
+                void SetupComment(int index)
+                {
+                    instances[index].Setup(
+                            commentDatas[index].comment,
+                            commentDatas[index].user,
+                            userService.CurrentUser.Id == commentDatas[index].user.Id,
+                            commentService.EditComment,
+                            commentService.DeleteComment);
+                }
             }
         }
 
