@@ -1,30 +1,21 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
     public sealed class ClientUserService : ClientServiceBase, IClientUserService
     {
-        [Header("Login and Register")]
-        [SerializeField]
-        private GameObject connectionOverlay;
-        [SerializeField]
-        private GameObject loginAndRegisterPage;
-        [SerializeField]
-        private TMP_InputField usernameInputField;
-        [SerializeField]
-        private TMP_Text errorLabel;
-
+        public override ClientServiceType Type => ClientServiceType.User;
         public User CurrentUser { get; private set; }
         public event Notify OnUserChanged;
+
+        private new ClientUserServiceSerialization serviceSerialization;
 
 
         public void LogOut()
         {
             CurrentUser = null;
-            loginAndRegisterPage.SetActive(true);
+            serviceSerialization.loginAndRegisterPage.SetActive(true);
             PlayerPrefs.SetInt(nameof(CurrentUser), -1);
             OnUserChanged?.Invoke();
         }
@@ -37,9 +28,9 @@ namespace TEDinc.PhotosNetwork
 
         private void RequestUser(Action<string, UserCallback> request, string onErrorMessage)
         {
-            errorLabel.gameObject.SetActive(false);
-            connectionOverlay.SetActive(true);
-            request.Invoke(usernameInputField.text, Callback);
+            serviceSerialization.errorLabel.gameObject.SetActive(false);
+            serviceSerialization.connectionOverlay.SetActive(true);
+            request.Invoke(serviceSerialization.usernameInputField.text, Callback);
 
             void Callback(User user, Result result)
             {
@@ -47,29 +38,31 @@ namespace TEDinc.PhotosNetwork
                 {
                     CurrentUser = user;
                     PlayerPrefs.SetInt(nameof(CurrentUser), user.Id);
-                    loginAndRegisterPage.SetActive(false);
+                    serviceSerialization.loginAndRegisterPage.SetActive(false);
                 }
                 else
                 {
-                    errorLabel.gameObject.SetActive(true);
-                    errorLabel.text = onErrorMessage;
+                    serviceSerialization.errorLabel.gameObject.SetActive(true);
+                    serviceSerialization.errorLabel.text = onErrorMessage;
                 }
 
-                connectionOverlay.SetActive(false);
+                serviceSerialization.connectionOverlay.SetActive(false);
             }
             OnUserChanged?.Invoke();
         }
 
-        public ClientUserService(IServerConnection connection) : base(connection)
+        public ClientUserService(IServerConnection connection, ClientUserServiceSerialization serviceSerialization) : base(connection, serviceSerialization)
         {
+            this.serviceSerialization = serviceSerialization;
+
             int loginedId = PlayerPrefs.GetInt(nameof(CurrentUser), -1);
             if (loginedId != -1)
             {
-                connectionOverlay.SetActive(true);
+                serviceSerialization.connectionOverlay.SetActive(true);
                 connection.UserService.StartLoggedIn(loginedId, Callback);
             }
             else
-                loginAndRegisterPage.SetActive(true);
+                serviceSerialization.loginAndRegisterPage.SetActive(true);
 
 
 
@@ -78,9 +71,9 @@ namespace TEDinc.PhotosNetwork
                 if (result == Result.Complete)
                     CurrentUser = user;
                 else
-                    loginAndRegisterPage.SetActive(true);
+                    serviceSerialization.loginAndRegisterPage.SetActive(true);
 
-                connectionOverlay.SetActive(false);
+                serviceSerialization.connectionOverlay.SetActive(false);
                 OnUserChanged?.Invoke();
             }
         }

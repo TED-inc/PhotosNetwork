@@ -1,35 +1,28 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
     public sealed class ClientPublicationService : ClientServiceBase, IClientPublicationService
     {
+        public override ClientServiceType Type => ClientServiceType.Publication;
 
         private IClientUserService userService;
-        [SerializeField]
-        private IClientCommentService commentService;
-
-        private Camera camera;
-
-        private RectTransform publicationsParent;
-        private PublicationDisplay publicationPrefab;
-        private float refreshUpdateDelay = 3f;
+        private new ClientPublicationServiceSerialization serviceSerialization;
+        private PublicationDisplayBuilder publicationDisplayBuilder;
 
         private float lastRefreshTime;
         private bool initilized;
 
-        private PublicationDisplayBuilder publicationDisplayBuilder;
 
         private void Update()
         {
             if (initilized
-                && lastRefreshTime + refreshUpdateDelay < Time.timeSinceLevelLoad)
+                && lastRefreshTime + serviceSerialization.refreshUpdateDelay < Time.timeSinceLevelLoad)
             {
                 Vector3[] corners = new Vector3[4];
-                publicationsParent.GetWorldCorners(corners);
-                bool updateFromTop = camera.WorldToViewportPoint(corners[1]).y < 0.95f;
-                bool updateFromBottom = camera.WorldToViewportPoint(corners[0]).y > -0.5f;
+                serviceSerialization.publicationsParent.GetWorldCorners(corners);
+                bool updateFromTop = serviceSerialization.camera.WorldToViewportPoint(corners[1]).y < 0.95f;
+                bool updateFromBottom = serviceSerialization.camera.WorldToViewportPoint(corners[0]).y > -0.5f;
 
                 if (updateFromTop || updateFromBottom)
                 {
@@ -39,10 +32,8 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public void Load(GetDataMode mode)
-        {
-
-        }
+        public void Load(GetDataMode mode) =>
+            publicationDisplayBuilder.Load(mode);
 
         public void CreatePublication()
         {
@@ -55,13 +46,12 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public ClientPublicationService(IServerConnection connection, IClientUserService userService, IClientCommentService commentService) : base(connection)
+        public ClientPublicationService(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, ClientPublicationServiceSerialization serviceSerialization) : base(connection, serviceSerialization)
         {
             this.userService = userService;
-            this.commentService = commentService;
+            this.serviceSerialization = serviceSerialization;
 
-            camera = Camera.main;
-            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, publicationsParent, commentService, publicationPrefab);
+            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, serviceSerialization.publicationsParent, commentService, serviceSerialization.publicationPrefab);
             publicationDisplayBuilder.Load();
             initilized = true;
         }

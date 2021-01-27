@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 149603633}
   - component: {fileID: 149603632}
   - component: {fileID: 149603631}
+  - component: {fileID: 149603634}
   m_Layer: 5
   m_Name: homeBtn
   m_TagString: Untagged
@@ -333,19 +334,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: HidePage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowPage
+      - m_Target: {fileID: 149603634}
+        m_MethodName: ShowOnlyOnePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -391,6 +381,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149603629}
   m_CullTransparentMesh: 0
+--- !u!114 &149603634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149603629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientRunner: {fileID: 1041105084}
+  serviceType: 2
 --- !u!1 &159881528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,8 +1217,9 @@ GameObject:
   - component: {fileID: 353703575}
   - component: {fileID: 353703574}
   - component: {fileID: 353703573}
+  - component: {fileID: 353703576}
   m_Layer: 5
-  m_Name: createPublication
+  m_Name: closeComments
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1282,9 +1287,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: HidePage
-        m_Mode: 1
+      - m_Target: {fileID: 353703576}
+        m_MethodName: SetActivePage
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1329,6 +1334,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353703571}
   m_CullTransparentMesh: 0
+--- !u!114 &353703576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353703571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientRunner: {fileID: 1041105084}
+  serviceType: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1341,7 +1360,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1960,6 +1979,7 @@ GameObject:
   - component: {fileID: 589600026}
   - component: {fileID: 589600025}
   - component: {fileID: 589600024}
+  - component: {fileID: 589600027}
   m_Layer: 5
   m_Name: createPublication
   m_TagString: Untagged
@@ -2029,8 +2049,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CreatePublication
+      - m_Target: {fileID: 589600027}
+        m_MethodName: Create
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2076,6 +2096,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 589600022}
   m_CullTransparentMesh: 0
+--- !u!114 &589600027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589600022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3341f209ed974d48bd8f7ac7210e12c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientRunner: {fileID: 1041105084}
 --- !u!1 &625155654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2742,6 +2775,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c3b76acd41f98429a2a4861af03f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userServiceSerialization:
+    _pageEnableItems:
+    - {fileID: 1935521573}
+    - {fileID: 2137438169}
+    _connectionOverlay: {fileID: 2048306671}
+    _loginAndRegisterPage: {fileID: 1031609325}
+    _usernameInputField: {fileID: 2069495992}
+    _errorLabel: {fileID: 1608076929}
+  commentServiceSerialization:
+    _pageEnableItems:
+    - {fileID: 922503793}
+    _commentsParent: {fileID: 159881529}
+    _scrollRect: {fileID: 576448653}
+    _commentPrefab: {fileID: 7757953728384677770, guid: fdb30ef4092e17248bcf8fabe7b173c1,
+      type: 3}
+    _commentInput: {fileID: 523301051}
+  publicationServiceSerialization:
+    _pageEnableItems:
+    - {fileID: 698190848}
+    - {fileID: 1158218939}
+    _camera: {fileID: 519420031}
+    _publicationsParent: {fileID: 995359599}
+    _publicationPrefab: {fileID: 8967607175634686843, guid: f812fc384d5a3d043ad040d36fd45f06,
+      type: 3}
+    _refreshUpdateDelay: 1
 --- !u!1 &1121553806
 GameObject:
   m_ObjectHideFlags: 0
@@ -3735,6 +3793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccbc2fe5896d941878df23301e5a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientRunner: {fileID: 1041105084}
   username: {fileID: 1459908912}
 --- !u!1 &1608076927
 GameObject:
@@ -4144,6 +4203,7 @@ GameObject:
   - component: {fileID: 1977335613}
   - component: {fileID: 1977335612}
   - component: {fileID: 1977335611}
+  - component: {fileID: 1977335614}
   m_Layer: 5
   m_Name: profileBtn
   m_TagString: Untagged
@@ -4214,19 +4274,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowPage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: HidePage
+      - m_Target: {fileID: 1977335614}
+        m_MethodName: ShowOnlyOnePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4272,6 +4321,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977335609}
   m_CullTransparentMesh: 0
+--- !u!114 &1977335614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977335609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientRunner: {fileID: 1041105084}
+  serviceType: 0
 --- !u!1 &2048306671
 GameObject:
   m_ObjectHideFlags: 0

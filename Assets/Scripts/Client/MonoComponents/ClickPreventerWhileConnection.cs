@@ -15,8 +15,8 @@ namespace TEDinc.PhotosNetwork
             else
                 Instance = this;
 
-            ServerConnection.connection.OnServerConnectStateChange += (ServerConnectionState state) => 
-                ChangePreventorState(state != ServerConnectionState.Connected);
+            //ServerConnection.connection.OnServerConnectStateChange += (ServerConnectionState state) => 
+            //    ChangePreventorState(state != ServerConnectionState.Connected);
         }
 
         public void ChangePreventorState(bool enabled) =>

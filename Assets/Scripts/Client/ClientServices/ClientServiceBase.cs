@@ -1,20 +1,26 @@
-﻿namespace TEDinc.PhotosNetwork
+﻿using UnityEngine;
+
+namespace TEDinc.PhotosNetwork
 {
     public delegate void Notify();
 
     public abstract class ClientServiceBase : IClientServiceBase
     {
         protected IServerConnection connection;
+        protected ClientServiceSerializationBase serviceSerialization;
 
-        public event SetActivePage onPageActiveStateChange;
+        public abstract ClientServiceType Type { get; }
 
-        public void ShowPage() =>
-            onPageActiveStateChange?.Invoke(true);
+        public void SetActivePage(bool enabled)
+        {
+            foreach (GameObject item in serviceSerialization.pageEnableItems)
+                item.SetActive(enabled);
+        }
 
-        public void HidePage() =>
-            onPageActiveStateChange?.Invoke(false); 
-
-        public ClientServiceBase(IServerConnection connection) =>
+        public ClientServiceBase(IServerConnection connection, ClientServiceSerializationBase serviceSerialization)
+        {
             this.connection = connection;
+            this.serviceSerialization = serviceSerialization;
+        }
     }
 }

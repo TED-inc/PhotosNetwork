@@ -1,16 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using TMPro;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
 {
     public sealed class CurrentUserNameDisplay : MonoBehaviour
     {
-        private ClientUserService clientUserService;
+        [SerializeField]
+        private ClientRunner clientRunner;
         [SerializeField]
         private TMP_Text username;
 
-        private void Awake()
+        private IClientUserService clientUserService;
+
+        private IEnumerator Start()
         {
+            while (!clientRunner.Initilized)
+                yield return new WaitForEndOfFrame();
+
+            clientUserService = clientRunner.GetService<IClientUserService>(); 
             clientUserService.OnUserChanged += RefreshName;
             RefreshName();
         }
