@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
@@ -7,30 +8,8 @@ namespace TEDinc.PhotosNetwork
         public override ClientServiceType Type => ClientServiceType.Publication;
 
         private IClientUserService userService;
-        private new ClientPublicationServiceSerialization serviceSerialization;
         private PublicationDisplayBuilder publicationDisplayBuilder;
 
-        private float lastRefreshTime;
-        private bool initilized;
-
-
-        private void Update()
-        {
-            if (initilized
-                && lastRefreshTime + serviceSerialization.refreshUpdateDelay < Time.timeSinceLevelLoad)
-            {
-                Vector3[] corners = new Vector3[4];
-                serviceSerialization.publicationsParent.GetWorldCorners(corners);
-                bool updateFromTop = serviceSerialization.camera.WorldToViewportPoint(corners[1]).y < 0.95f;
-                bool updateFromBottom = serviceSerialization.camera.WorldToViewportPoint(corners[0]).y > -0.5f;
-
-                if (updateFromTop || updateFromBottom)
-                {
-                    lastRefreshTime = Time.timeSinceLevelLoad;
-                    publicationDisplayBuilder.Load(updateFromTop ? GetDataMode.After : GetDataMode.Before);
-                }
-            }
-        }
 
         public void Load(GetDataMode mode) =>
             publicationDisplayBuilder.Load(mode);
@@ -41,6 +20,9 @@ namespace TEDinc.PhotosNetwork
 
             void Callback(string photoPath)
             {
+                if (string.IsNullOrEmpty(photoPath) || !File.Exists(photoPath))
+                    return;
+
                 Texture2D textureFrom = NativeGallery.LoadImageAtPath(photoPath, maxSize: 2048, generateMipmaps: false, markTextureNonReadable: false);
                 connection.PublicationService.PostPublication(userService.CurrentUser.Id, textureFrom.EncodeToJPG());
             }
@@ -49,11 +31,9 @@ namespace TEDinc.PhotosNetwork
         public ClientPublicationService(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, ClientPublicationServiceSerialization serviceSerialization) : base(connection, serviceSerialization)
         {
             this.userService = userService;
-            this.serviceSerialization = serviceSerialization;
 
-            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, serviceSerialization.publicationsParent, commentService, serviceSerialization.publicationPrefab);
+            publicationDisplayBuilder = new PublicationDisplayBuilder(connection, commentService, serviceSerialization);
             publicationDisplayBuilder.Load();
-            initilized = true;
         }
     }
 }

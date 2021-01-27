@@ -110,12 +110,12 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public PublicationDisplayBuilder(IServerConnection connection, Transform publicationsParent, IClientCommentService commentService, PublicationDisplay publicationPrefab)
+        public PublicationDisplayBuilder(IServerConnection connection, IClientCommentService commentService, ClientPublicationServiceSerialization serviceSerialization)
         {
             this.connection = connection;
-            this.publicationsParent = publicationsParent;
             this.commentService = commentService;
-            this.publicationPrefab = publicationPrefab;
+            publicationsParent = serviceSerialization.publicationsParent;
+            publicationPrefab = serviceSerialization.publicationPrefab;
             if (!Directory.Exists(DirectoryCashePath))
                 Directory.CreateDirectory(DirectoryCashePath);
         }

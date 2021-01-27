@@ -70,13 +70,13 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public CommentDisplayBuilder(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, CommentDisplay commentPrefab, Transform commentsParent)
+        public CommentDisplayBuilder(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, ClientCommentServiceSerialization serviceSerialization)
         {
             this.connection = connection;
             this.userService = userService;
             this.commentService = commentService;
-            this.commentPrefab = commentPrefab;
-            this.commentsParent = commentsParent;
+            commentPrefab = serviceSerialization.commentPrefab;
+            commentsParent = serviceSerialization.commentsParent;
         }
     }
 }

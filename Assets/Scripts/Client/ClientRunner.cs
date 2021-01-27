@@ -60,6 +60,9 @@ namespace TEDinc.PhotosNetwork
 
         public T GetService<T>(ClientServiceType type) where T : IClientServiceBase =>
             (T)services[type];
+
+        public IClientServiceBase GetService(ClientServiceType type) =>
+            services[type];
     }
 
 

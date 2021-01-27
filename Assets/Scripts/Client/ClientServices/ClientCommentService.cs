@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public class ClientCommentService : ClientServiceBase, IClientCommentService
+    public sealed class ClientCommentService : ClientServiceBase, IClientCommentService
     {
         public override ClientServiceType Type => ClientServiceType.Comment;
 
@@ -83,7 +83,7 @@ namespace TEDinc.PhotosNetwork
             this.userService = userService;
             this.serviceSerialization = serviceSerialization;
 
-            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, serviceSerialization.commentPrefab, serviceSerialization.commentsParent);
+            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, serviceSerialization);
         }
     }
 }

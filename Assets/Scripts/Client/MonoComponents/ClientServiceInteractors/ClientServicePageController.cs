@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
@@ -12,7 +11,7 @@ namespace TEDinc.PhotosNetwork.MonoComponents
         private ClientServiceType serviceType;
 
         public void SetActivePage(bool enabled) =>
-            clientRunner.GetService<IClientServiceBase>(serviceType).SetActivePage(enabled);
+            clientRunner.GetService(serviceType).SetActivePage(enabled);
 
         public void ShowOnlyOnePage()
         {
