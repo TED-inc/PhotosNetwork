@@ -2366,11 +2366,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientRunner: {fileID: 1041105084}
-  publicationsContent: {fileID: 995359599}
   scrollRect: {fileID: 525774288}
+  publicationsContent: {fileID: 995359599}
   refreshUpdateDelay: 1
-  distanceFromTopToUpdate: -250
-  distanceFromBottomToUpdate: 800
+  distanceToUpdate: 2000
 --- !u!1 &895228564
 GameObject:
   m_ObjectHideFlags: 0

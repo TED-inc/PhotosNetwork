@@ -16,9 +16,7 @@ namespace TEDinc.PhotosNetwork.MonoComponents
         [SerializeField, Min(0.1f)]
         private float refreshUpdateDelay = 1f;
         [SerializeField]
-        private float distanceFromTopToUpdate = -100f;
-        [SerializeField]
-        private float distanceFromBottomToUpdate = 400f;
+        private float distanceToUpdate = 400f;
 
         private IClientPublicationService publicationService;
         private float lastRefreshTime;
@@ -40,13 +38,13 @@ namespace TEDinc.PhotosNetwork.MonoComponents
             {
                 float distnceFromBottom = scrollDelta.y * publicationsContent.sizeDelta.y;
                 float distanceFromTop = publicationsContent.sizeDelta.y - distnceFromBottom;
-                bool updateFromTop = distanceFromTop < distanceFromTopToUpdate;
-                bool updateFromBottom = distnceFromBottom < distanceFromBottomToUpdate;
+                bool updateFromTop = distanceFromTop < distanceToUpdate;
+                bool updateFromBottom = distnceFromBottom < distanceToUpdate;
 
                 if (updateFromTop || updateFromBottom)
                 {
                     lastRefreshTime = Time.timeSinceLevelLoad;
-                    publicationService.Load(updateFromTop ? GetDataMode.After : GetDataMode.Before);
+                    publicationService.Load(updateFromBottom ? GetDataMode.Before : GetDataMode.After);
                 }
             }
         }
