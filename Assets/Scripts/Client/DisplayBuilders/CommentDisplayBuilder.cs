@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void EditComment(int commentId, string oldMessage);
-    public delegate void DeleteComment(int commentId);
-
     public sealed class CommentDisplayBuilder
     {
         private IServerConnection connection;

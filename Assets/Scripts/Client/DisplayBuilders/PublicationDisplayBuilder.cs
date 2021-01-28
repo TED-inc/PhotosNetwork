@@ -6,11 +6,10 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void OpenComments(int commentId);
     public sealed class PublicationDisplayBuilder
     {
         private const int loadCount = 5;
-        private const int maxPublicationsCount = 10;
+        private const int maxPublicationsCount = 50;
 
         private IServerConnection connection;
         private IClientCommentService commentService;

@@ -1,14 +1,8 @@
-﻿using UnityEngine;
-
-namespace TEDinc.PhotosNetwork.MonoComponents
+﻿namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class PostComment : MonoBehaviour
+    public sealed class PostComment : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientRunner clientRunner;
-
         public void Post() =>
             clientRunner.GetService<IClientCommentService>().PostComment();
-
     }
 }

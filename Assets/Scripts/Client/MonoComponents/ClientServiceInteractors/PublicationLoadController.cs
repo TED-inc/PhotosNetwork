@@ -1,13 +1,10 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class PublicationLoadController : MonoBehaviour
+    public sealed class PublicationLoadController : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientRunner clientRunner;
         [SerializeField]
         private ScrollRect scrollRect;
         [SerializeField]
@@ -22,11 +19,8 @@ namespace TEDinc.PhotosNetwork.MonoComponents
         private float lastRefreshTime;
 
 
-        private IEnumerator Start()
+        protected override void OnInit()
         {
-            while (!clientRunner.Initilized)
-                yield return new WaitForSeconds(0.1f);
-
             publicationService = clientRunner.GetService<IClientPublicationService>();
             scrollRect.onValueChanged.AddListener(OnScroll);
         }

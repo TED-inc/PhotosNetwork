@@ -20,17 +20,16 @@ namespace TEDinc.PhotosNetwork
             OnUserChanged?.Invoke();
         }
 
-        public void LogIn() =>
-            RequestUser(connection.UserService.LogIn, "User not exist");
+        public void LogIn(string username, UserRequestCallback userRequestCallback) =>
+            RequestUser(connection.UserService.LogIn, username, userRequestCallback, "User not exist");
 
-        public void Register() =>
-            RequestUser(connection.UserService.Register, "User already exist");
+        public void Register(string username, UserRequestCallback userRequestCallback) =>
+            RequestUser(connection.UserService.Register, username, userRequestCallback, "User already exist");
 
-        private void RequestUser(Action<string, UserCallback> request, string onErrorMessage)
+        private void RequestUser(Action<string, UserCallback> request, string username, UserRequestCallback userRequestCallback, string onErrorMessage)
         {
-            serviceSerialization.errorLabel.gameObject.SetActive(false);
             serviceSerialization.connectionOverlay.SetActive(true);
-            request.Invoke(serviceSerialization.usernameInputField.text, Callback);
+            request.Invoke(username, Callback);
 
             void Callback(User user, Result result)
             {
@@ -39,12 +38,10 @@ namespace TEDinc.PhotosNetwork
                     CurrentUser = user;
                     PlayerPrefs.SetInt(nameof(CurrentUser), user.Id);
                     serviceSerialization.loginAndRegisterPage.SetActive(false);
+                    userRequestCallback?.Invoke(result);
                 }
                 else
-                {
-                    serviceSerialization.errorLabel.gameObject.SetActive(true);
-                    serviceSerialization.errorLabel.text = onErrorMessage;
-                }
+                    userRequestCallback?.Invoke(result, onErrorMessage);
 
                 serviceSerialization.connectionOverlay.SetActive(false);
             }

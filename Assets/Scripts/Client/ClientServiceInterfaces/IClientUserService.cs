@@ -6,7 +6,7 @@
         event Notify OnUserChanged;
 
         void LogOut();
-        void LogIn();
-        void Register();
+        void LogIn(string username, UserRequestCallback userRequestCallback);
+        void Register(string username, UserRequestCallback userRequestCallback);
     }
 }

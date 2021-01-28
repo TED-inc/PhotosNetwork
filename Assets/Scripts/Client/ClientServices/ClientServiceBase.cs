@@ -2,8 +2,6 @@
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void Notify();
-
     public abstract class ClientServiceBase : IClientServiceBase
     {
         protected IServerConnection connection;

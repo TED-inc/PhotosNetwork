@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class ClientServicePageController : MonoBehaviour
+    public sealed class ClientServicePageController : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientRunner clientRunner;
         [SerializeField]
         private ClientServiceType serviceType;
 

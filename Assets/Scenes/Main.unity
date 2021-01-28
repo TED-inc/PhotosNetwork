@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
   serviceType: 2
 --- !u!1 &159881528
 GameObject:
@@ -708,7 +708,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1031609329}
         m_MethodName: Register
         m_Mode: 1
         m_Arguments:
@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
   serviceType: 1
 --- !u!1 &519420028
 GameObject:
@@ -1982,7 +1982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3341f209ed974d48bd8f7ac7210e12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
 --- !u!1 &625155654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,7 +2160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a039f2ffec01b1d4983aea29858d634b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
 --- !u!1 &675490804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26373fc913cace5419cbc3b3882d71e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
   scrollRect: {fileID: 525774288}
   publicationsContent: {fileID: 995359599}
   refreshUpdateDelay: 1
@@ -2572,6 +2572,7 @@ GameObject:
   - component: {fileID: 1031609326}
   - component: {fileID: 1031609328}
   - component: {fileID: 1031609327}
+  - component: {fileID: 1031609329}
   m_Layer: 5
   m_Name: loginAndRegisterPage
   m_TagString: Untagged
@@ -2638,6 +2639,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031609325}
   m_CullTransparentMesh: 0
+--- !u!114 &1031609329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031609325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc9874a8367ed954c86d6c1cc280a92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clientRunner: {fileID: 1041105084}
+  usernameInputField: {fileID: 2069495992}
+  errorLabel: {fileID: 1608076929}
 --- !u!1 &1041105081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2687,8 +2703,6 @@ MonoBehaviour:
     - {fileID: 2137438169}
     _connectionOverlay: {fileID: 2048306671}
     _loginAndRegisterPage: {fileID: 1031609325}
-    _usernameInputField: {fileID: 2069495992}
-    _errorLabel: {fileID: 1608076929}
   commentServiceSerialization:
     _pageEnableItems:
     - {fileID: 922503793}
@@ -3317,7 +3331,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1031609329}
         m_MethodName: LogIn
         m_Mode: 1
         m_Arguments:
@@ -3601,7 +3615,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1541878986}
         m_MethodName: LogOut
         m_Mode: 1
         m_Arguments:
@@ -3697,7 +3711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccbc2fe5896d941878df23301e5a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
   username: {fileID: 1459908912}
 --- !u!1 &1608076927
 GameObject:
@@ -3734,7 +3748,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -80}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1608076929
 MonoBehaviour:
@@ -3866,7 +3880,7 @@ GameObject:
   - component: {fileID: 1726566381}
   - component: {fileID: 1726566380}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: '[EventSystem]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4149,7 +4163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bbfe0f50b9cd649819383324691f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRunner: {fileID: 1041105084}
+  _clientRunner: {fileID: 1041105084}
   serviceType: 0
 --- !u!1 &2048306671
 GameObject:

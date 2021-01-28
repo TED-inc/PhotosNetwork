@@ -4,20 +4,15 @@ using TMPro;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class CurrentUserNameDisplay : MonoBehaviour
+    public sealed class LoggedInUserManager : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientRunner clientRunner;
         [SerializeField]
         private TMP_Text username;
 
         private IClientUserService clientUserService;
 
-        private IEnumerator Start()
+        protected override void OnInit()
         {
-            while (!clientRunner.Initilized)
-                yield return new WaitForEndOfFrame();
-
             clientUserService = clientRunner.GetService<IClientUserService>(); 
             clientUserService.OnUserChanged += RefreshName;
             RefreshName();
@@ -28,5 +23,8 @@ namespace TEDinc.PhotosNetwork.MonoComponents
 
         private void RefreshName() =>
             username.text = clientUserService.CurrentUser?.Username;
+
+        public void LogOut() =>
+            clientUserService.LogOut();
     }
 }

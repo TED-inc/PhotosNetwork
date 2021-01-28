@@ -1,14 +1,8 @@
-﻿using UnityEngine;
-
-namespace TEDinc.PhotosNetwork.MonoComponents
+﻿namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class CreatePublication : MonoBehaviour
+    public sealed class CreatePublication : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientRunner clientRunner;
-
         public void Create() =>
             clientRunner.GetService<IClientPublicationService>().CreatePublication();
-        
     }
 }
