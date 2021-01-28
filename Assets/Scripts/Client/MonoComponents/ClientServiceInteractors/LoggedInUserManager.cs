@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using TMPro;
 
 namespace TEDinc.PhotosNetwork.MonoComponents
 {
-    public sealed class CurrentUserNameDisplay : MonoBehaviour
+    public sealed class LoggedInUserManager : ClientServiceInteractorBase
     {
-        [SerializeField]
-        private ClientUserService clientUserService;
         [SerializeField]
         private TMP_Text username;
 
-        private void Awake()
+        private IClientUserService clientUserService;
+
+        protected override void OnInit()
         {
+            clientUserService = clientRunner.GetService<IClientUserService>(); 
             clientUserService.OnUserChanged += RefreshName;
             RefreshName();
         }
@@ -21,5 +23,8 @@ namespace TEDinc.PhotosNetwork.MonoComponents
 
         private void RefreshName() =>
             username.text = clientUserService.CurrentUser?.Username;
+
+        public void LogOut() =>
+            clientUserService.LogOut();
     }
 }

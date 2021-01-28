@@ -4,14 +4,11 @@ using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void EditComment(int commentId, string oldMessage);
-    public delegate void DeleteComment(int commentId);
-
     public sealed class CommentDisplayBuilder
     {
         private IServerConnection connection;
-        private ClientUserService userService;
-        private ClientCommentService commentService;
+        private IClientUserService userService;
+        private IClientCommentService commentService;
         private CommentDisplay commentPrefab;
         private Transform commentsParent;
 
@@ -70,13 +67,13 @@ namespace TEDinc.PhotosNetwork
             }
         }
 
-        public CommentDisplayBuilder(IServerConnection connection, ClientUserService userService, ClientCommentService commentService, CommentDisplay commentPrefab, Transform commentsParent)
+        public CommentDisplayBuilder(IServerConnection connection, IClientUserService userService, IClientCommentService commentService, ClientCommentServiceSerialization serviceSerialization)
         {
             this.connection = connection;
             this.userService = userService;
             this.commentService = commentService;
-            this.commentPrefab = commentPrefab;
-            this.commentsParent = commentsParent;
+            commentPrefab = serviceSerialization.commentPrefab;
+            commentsParent = serviceSerialization.commentsParent;
         }
     }
 }

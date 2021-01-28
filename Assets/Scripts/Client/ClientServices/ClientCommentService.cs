@@ -1,41 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 namespace TEDinc.PhotosNetwork
 {
-    public class ClientCommentService : ClientServiceBase
+    public sealed class ClientCommentService : ClientServiceBase, IClientCommentService
     {
-        [Header("Services")]
-        [SerializeField]
-        private ClientUserService userService;
-        [Header("Comments Settings")]
-        [SerializeField]
-        private RectTransform commentsParent;
-        [SerializeField]
-        private ScrollRect scrollRect;
-        [SerializeField]
-        private CommentDisplay commentPrefab;
-        [SerializeField]
-        private TMP_InputField commentInput;
+        public override ClientServiceType Type => ClientServiceType.Comment;
+
+        private IClientUserService userService;
+        private new ClientCommentServiceSerialization serviceSerialization;
 
         private int currentPublicationId;
         private CommentDisplayBuilder commentDisplayBuilder;
         private int editCommentId = -1;
 
-        protected override IEnumerator Start()
-        {
-            yield return base.Start();
-
-            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, commentPrefab, commentsParent);
-        }
 
         public void ShowPage(int publicationId)
         {
-            ShowPage();
+            SetActivePage(true);
             if (publicationId != currentPublicationId)
-                commentInput.text = "";
+                serviceSerialization.commentInput.text = "";
             currentPublicationId = publicationId;
             Refresh();
         }
@@ -46,7 +30,7 @@ namespace TEDinc.PhotosNetwork
         public void EditComment(int commentId, string oldMessage)
         {
             editCommentId = commentId;
-            commentInput.text = oldMessage;
+            serviceSerialization.commentInput.text = oldMessage;
         }
 
         public void DeleteComment(int commentId)
@@ -63,9 +47,9 @@ namespace TEDinc.PhotosNetwork
         private void SendComment()
         {
             if (editCommentId != -1)
-                connection.CommentService.EditComment(userService.CurrentUser.Id, editCommentId, commentInput.text, Callback);
+                connection.CommentService.EditComment(userService.CurrentUser.Id, editCommentId, serviceSerialization.commentInput.text, Callback);
             else
-                connection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, commentInput.text, Callback);
+                connection.CommentService.PostComment(userService.CurrentUser.Id, currentPublicationId, serviceSerialization.commentInput.text, Callback);
             editCommentId = -1;
 
             void Callback(Result result)
@@ -73,7 +57,7 @@ namespace TEDinc.PhotosNetwork
                 if (result != Result.Failed)
                 {
                     Refresh();
-                    commentInput.text = "";
+                    serviceSerialization.commentInput.text = "";
                 }
             }
         }
@@ -84,14 +68,22 @@ namespace TEDinc.PhotosNetwork
 
             void CallBack()
             {
-                StartCoroutine(ResetScrollRect());
+                CoroutineRunner.Instance.StartCoroutine(ResetScrollRect());
                 
                 IEnumerator ResetScrollRect()
                 {
                     yield return new WaitForEndOfFrame();
-                    scrollRect.normalizedPosition = Vector2.zero;
+                    serviceSerialization.scrollRect.normalizedPosition = Vector2.zero;
                 }
             }
+        }
+
+        public ClientCommentService(IServerConnection connection, IClientUserService userService, ClientCommentServiceSerialization serviceSerialization) : base(connection, serviceSerialization)
+        {
+            this.userService = userService;
+            this.serviceSerialization = serviceSerialization;
+
+            commentDisplayBuilder = new CommentDisplayBuilder(connection, userService, this, serviceSerialization);
         }
     }
 }

@@ -1,31 +1,34 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace TEDinc.PhotosNetwork
 {
-    public delegate void OpenComments(int commentId);
     public sealed class PublicationDisplayBuilder
     {
         private const int loadCount = 5;
         private const int maxPublicationsCount = 50;
 
         private IServerConnection connection;
-        private Transform publicationsParent;
-        private ClientCommentService commentService;
+        private IClientCommentService commentService;
+        private RectTransform publicationsParent;
         private PublicationDisplay publicationPrefab;
-        private Dictionary<int, PublicationDisplay> publicationInstances = new Dictionary<int, PublicationDisplay>(maxPublicationsCount);
+        private Dictionary<int, PublicationDisplay> publicationInstances 
+            = new Dictionary<int, PublicationDisplay>(maxPublicationsCount);
+
         private int lastPublicationId;
-        private long lastPublicationTime;
-        private int firstPublicationId;
-        private long firstPublicationTime = long.MaxValue;
+        private int firstPublicationId = int.MaxValue;
 
         private string DirectoryCashePath => $"{Application.temporaryCachePath}/Images";
         private string GetFilePathInCahse(int id) => $"{DirectoryCashePath}/{id}.jpg";
 
         public void Load(GetDataMode dataMode = GetDataMode.After)
         {
-            if (publicationInstances.Count == 0)
+            bool firstRun = publicationInstances.Count == 0;
+
+            if (firstRun)
                 connection.PublicationService.GetPublications(loadCount, Callback);
             else
                 connection.PublicationService.GetPublications(
@@ -40,12 +43,17 @@ namespace TEDinc.PhotosNetwork
             {
                 if (result != Result.Failed)
                 {
+                    if (!firstRun)
+                        CoroutineRunner.Instance.StartCoroutine(PreventCurrentPublicatioScrollout());
+
+                    RemoveFarawayPublications();
+
                     foreach ((Publication publication, User user) publicationData in publications)
                     {
                         if (publicationInstances.ContainsKey(publicationData.publication.Id))
                             continue;
 
-                        ActualizeLastAndFirstPublicationsIds(publicationData.publication);
+                        ActualizeLastAndFirstPublicationsIds(publicationData.publication.Id);
                         PublicationDisplay instance = CreatePublicationInsatnce(
                             publicationData.publication.Id, 
                             publicationData.user.Username);
@@ -55,18 +63,41 @@ namespace TEDinc.PhotosNetwork
 
 
 
-                void ActualizeLastAndFirstPublicationsIds(Publication publication)
+                void RemoveFarawayPublications()
                 {
-                    if (publication.DataTimeUTC > lastPublicationTime)
+                    int removeCount = publicationInstances.Count + publications.Length - maxPublicationsCount;
+
+                    if (removeCount > 0)
                     {
-                        lastPublicationTime = publication.DataTimeUTC;
-                        lastPublicationId = publication.Id;
+                        int[] idToDestoy = new int[removeCount];
+                        IOrderedEnumerable<KeyValuePair<int, PublicationDisplay>> publicationsOrdered =
+                            dataMode == GetDataMode.Before ?
+                                publicationInstances.OrderByDescending(pair => pair.Key) :
+                                publicationInstances.OrderBy(pair => pair.Key);
+
+                        for (int i = 0; i < removeCount; i++)
+                        {
+                            KeyValuePair<int, PublicationDisplay> toDestoy = publicationsOrdered.ElementAt(i);
+                            idToDestoy[i] = toDestoy.Key;
+                            GameObject.Destroy(toDestoy.Value.gameObject);
+                        }
+
+                        if (dataMode == GetDataMode.Before)
+                            lastPublicationId = publicationsOrdered.ElementAt(removeCount).Key;
+                        else
+                            firstPublicationId = publicationsOrdered.ElementAt(removeCount).Key;
+
+                        foreach (int id in idToDestoy)
+                            publicationInstances.Remove(id);
                     }
-                    if (publication.DataTimeUTC < firstPublicationTime)
-                    {
-                        firstPublicationTime = publication.DataTimeUTC;
-                        firstPublicationId = publication.Id;
-                    }
+                }
+
+                void ActualizeLastAndFirstPublicationsIds(int publicationId)
+                {
+                    if (publicationId > lastPublicationId)
+                        lastPublicationId = publicationId;
+                    if (publicationId < firstPublicationId)
+                        firstPublicationId = publicationId;
                 }
 
                 PublicationDisplay CreatePublicationInsatnce(int publicationId, string username)
@@ -107,15 +138,27 @@ namespace TEDinc.PhotosNetwork
                         }
                     }
                 }
+
+                IEnumerator PreventCurrentPublicatioScrollout()
+                {
+                    int anchorPublicationId = dataMode == GetDataMode.Before ? firstPublicationId : lastPublicationId;
+                    float anchorPositon = publicationInstances[anchorPublicationId].transform.position.y;
+
+                    yield return null;
+
+                    float newAnchorPos = publicationInstances[anchorPublicationId].transform.position.y;
+                    if (Mathf.Abs(anchorPositon - newAnchorPos) > 0.1f)
+                        publicationsParent.Translate(Vector3.up * (anchorPositon - newAnchorPos), Space.World);
+                }
             }
         }
 
-        public PublicationDisplayBuilder(IServerConnection connection, Transform publicationsParent, ClientCommentService commentService, PublicationDisplay publicationPrefab)
+        public PublicationDisplayBuilder(IServerConnection connection, IClientCommentService commentService, ClientPublicationServiceSerialization serviceSerialization)
         {
             this.connection = connection;
-            this.publicationsParent = publicationsParent;
             this.commentService = commentService;
-            this.publicationPrefab = publicationPrefab;
+            publicationsParent = serviceSerialization.publicationsParent;
+            publicationPrefab = serviceSerialization.publicationPrefab;
             if (!Directory.Exists(DirectoryCashePath))
                 Directory.CreateDirectory(DirectoryCashePath);
         }
